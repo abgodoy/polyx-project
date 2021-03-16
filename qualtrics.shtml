@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Qualtrics Info - Polytechnic Experience - Angular JS Tutorial</title>
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+  <script src="assets/js/qualtrics-app.js"></script>
+</head>
+
+<style>
+  /* styling goes here */
+  .details, .description, .contact-info {
+    padding-bottom: 25px;
+  }
+</style>
+
+<body>
+  <div ng-app="polyXApp">
+    <!-- ANGULAR -->
+    <div ng-controller="PolyXController">
+      <!-- ANGULAR -->
+      <div class="container mt-sm-3">
+        <div class="row">
+          <div class="col-md-6 col-lg-6">
+            <input type="text" class="form-control form-control-sm" placeholder="type search query..." ng-model="searchQuery" />
+          </div>
+
+        </div><!-- col-container -->
+      </div>
+      <!-- display the accordion here -->
+      <div class="container accordion" id="polyX-list">
+        <div class="card" ng-repeat="item in qualtricsData.entry | filter:status | filter:searchQuery">
+          <div class="card-header" id="{{item['application-id']}}">
+            <h2 class="mb-0">
+              <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse-{{item['application-id']}}" aria-expanded="false" aria-controls="collapse-{{item['application-id']}}">
+                {{item['q4']}}
+              </button>
+            </h2>
+          </div>
+
+          <div id="collapse-{{item['application-id']}}" class="collapse" aria-labelledby="{{item['application-id']}}" data-parent="#polyX-list">
+            <div class="card-body">
+              <div class="details">
+                <h3>{{item['q4']}}</h3>
+                <hr>
+                <strong>Length of experience: </strong>{{item['q10']}}<br />
+                <strong>Curricular or Co-curricular: </strong>{{item['q8']}}<br />
+                <strong>GPA Requirements: </strong>{{item['q18']}}<br />
+                <strong>GPA: </strong>{{item['q19']}}<br />
+                <strong>Class Level: </strong>{{item['q14']}}<br />
+                <strong>Pre-requisite(s): </strong>{{item['q17']}}<br />
+              </div>
+              <div class="description">
+                <h3>Description</h3>
+                <hr>
+                {{item['description']}}
+              </div>
+              <div class="contact-info"></div>
+              <h3>Contact Information</h3>
+              <hr>
+              <strong>Faculty Instructor(s): </strong><a href="mailto:{{item['email']}}">{{item['q1']}}</a><br />
+              <strong>College/Division: </strong>{{item['q2']}}<br />
+              <strong>Department: </strong>{{item['q3']}}<br />
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</html>
