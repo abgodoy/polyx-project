@@ -48,7 +48,7 @@
           <div class="card-header" id="{{item['application-id']}}">
             <h2 class="mb-0">
               <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse-{{item['application-id']}}" aria-expanded="false" aria-controls="collapse-{{item['application-id']}}">
-                {{item['polyx-title']}}
+                {{item['polyx-title']}}  {{$index}}
               </button>
             </h2>
           </div>

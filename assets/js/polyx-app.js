@@ -15,7 +15,9 @@ var polyXApp = angular.module('polyXApp', []);
 
 polyXApp.controller('PolyXController', function PolyXController($scope, $http) {
 
-  $http.get('assets/docs/details-with-all-fields.json').then(function(response){
+  var jsonFeed = 'assets/docs/details-with-all-fields.json';
+  $http.get(jsonFeed).then(function(response){
+
     $scope.polyXList = response.data;
     console.log(response.data);
   });
