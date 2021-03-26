@@ -12,7 +12,9 @@
 </head>
 
 <style>
-  /* styling goes here */
+  .row {
+    padding: 10px 0px;
+  }
 </style>
 
 <body>
@@ -22,26 +24,99 @@
       <!-- ANGULAR -->
       <div class="container mt-sm-3">
         <div class="row">
-          <div class="col-md-6 col-lg-6">
-            <input type="text" class="form-control form-control-sm" placeholder="type search query..." ng-model="searchQuery" />
-          </div>
-          <div class="col-md-6 col-lg-6">
-            <select class="form-control form-control-sm" placeholder="choose filter" ng-model="status">
-              <!-- To Do:  make this loop using the predefined filters -->
-              <option value="">Both</option>
-              <option value="Curricular">Curricular</option>
-              <option value="Co-curricular">Co-curricular</option>
+          <!-- college/division filter -->
+          <div class="col-md-3 col-sm-6">
+            <label>College/Division</label>
+            <select class="form-control form-control-sm" placeholder="choose filter" ng-model="division_option">
+              <option value="" selected disabled hidden>Choose college/division</option>
+              <option value="all">All</option>
+              <option value="Agriculture">Agriculture</option>
+              <option value="Education & Integrative Studies">Education & Integrative Studies</option>
+              <option value="Hospitality">Hospitality</option>
+              <option value="Letters, Arts & Social Sciences">Letters, Arts & Social Sciences</option>
+              <option value="University-wide">University-wide</option>
             </select>
+          </div>
+          <!-- curricular/co-curricular filter -->
+          <div class="col-md-3 col-sm-6">
+            <label>Curricular/Co-Curricular</label>
+            <input type="radio" name="curr" value="curricular" ng-model="curricular_type" /> Curricular
+            <input type="radio" name="curr" value="co-curricular" ng-model="curricular_type" /> Co-curricular
+            <input type="radio" name="curr" value="curricular and co-curricular" ng-model="curricular_type" /> Both
+          </div>
+
+          <!-- PolyX Name -->
+          <div class="col-md-6 col-sm-6">
+            <label>Polytechnic Experience</label>
+            <select class="form-control form-control-sm" placeholder="choose filter" ng-model="polyx_name_option">
+              <option selected="selected" disabled hidden value="">Choose PolyX name...</option>
+              <option value="all">All</option>
+              <option value="ANT3500HS: Environment, Technology and Culture (Honors, Service-Learning)">ANT3500HS: Environment, Technology and Culture (Honors, Service-Learning)</option>
+              <option value="ANT4900: Methods in Anthropology">ANT4900: Methods in Anthropology</option>
+              <option value="HRT 3830/HRT3830L - Food and Beverage Operations">HRT 3830/HRT3830L - Food and Beverage Operations</option>
+              <option value="LTD Projects Hatchery">LTD Projects Hatchery</option>
+              <option value="Market Analysis in the Lodging Industry">Market Analysis in the Lodging Industry</option>
+              <option value="McNair Scholars Program">McNair Scholars Program</option>
+              <option value="National Model United Nations (NMUN)">National Model United Nations (NMUN)</option>
+              <option value="New Food Product Development FST 4290L: From the Classroom to National Competitions">New Food Product Development FST 4290L: From the Classroom to National Competitions</option>
+              <option value="PolyPet Spa Day and Vaccine Clinic">PolyPet Spa Day and Vaccine Clinic</option>
+              <option value="Professional Work Experience Course">Professional Work Experience Course</option>
+              <option value="The Poly Post (news lab)">The Poly Post (news lab)</option>
+              <option value="Women, Health, and Body Politics Zine Making">Women, Health, and Body Politics Zine Making</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+
+          <!-- Staff in-charge of the PolyX -->
+          <div class="col-md-3 col-sm-6">
+            <label>Faculty/Staff In-Charge</label>
+            <select class="form-control form-control-sm" placeholder="choose filter" ng-model="contact_option">
+              <option selected="selected" disabled hidden value="">Choose staff/faculty in charge...</option>
+              <option value="all">All</option>
+              <option value="mcnair@cpp.edu">Alvarez, Elena</option>
+              <option value="jblair@cpp.edu">Blair, James</option>
+              <option value="aldao@cpp.edu">Dao, Amy</option>
+              <option value="gdavidov@cpp.edu">Davidov-Pardo, Gabriel</option>
+              <option value="winnydong@cpp.edu">Dong, Winny</option>
+              <option value="skafai@cpp.edu">Kafai, Shayda</option>
+              <option value="lkwok@cpp.edu">Kwok, Linchi</option>
+              <option value="AELara@cpp.edu">Lara, Ann</option>
+              <option value="scarcelli@cpp.edu">Scarcelli, Marc</option>
+              <option value="jsohn@cpp.edu">Sohn, Joanne</option>
+              <option value="jmturcotte@cpp.edu">Turcotte, Jason</option>
+              <option value="zhang2@cpp.edu">Zhang, Jason</option>
+            </select>
+          </div>
+
+          <!-- class standing filter -->
+          <div class="col-md-3 col-lg-6">
+            <label>Class Standing</label>
+            <select class="form-control form-control-sm" placeholder="choose filter" ng-model="standing">
+              <option selected="selected" disabled hidden value="">Choose class standing</option>
+              <option value="freshmen">Freshmen</option>
+              <option value="sophomore">Sophomore</option>
+              <option value="junior">Junior</option>
+              <option value="senior">Senior</option>
+              <option value="graduate">Graduate</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <!-- string search -->
+          <div class="col-md-9 col-lg-6">
+            <label>Search: </label>
+            <input type="text" class="form-control form-control-sm" placeholder="type search query..." ng-model="searchQuery" />
           </div>
         </div><!-- col-container -->
       </div>
       <!-- display the accordion here -->
       <div class="container accordion" id="polyX-list">
-        <div class="card" ng-repeat="entry in polyXList.entries | idFilter | filter:searchQuery">
+        <div class="card" ng-repeat="entry in polyXList.entries | class : standing | curr : curricular_type | filter:searchQuery | college_division:division_option | polyx_name:polyx_name_option | polyx_contact:contact_option">
           <div class="card-header" id="{{$index}}">
             <h2 class="mb-0">
               <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse-{{$index}}" aria-expanded="false" aria-controls="collapse-{{$index}}">
-                {{entry['one']}}
+                {{entry['q1']}}
               </button>
             </h2>
           </div>
@@ -49,8 +124,13 @@
           <div id="collapse-{{$index}}" class="collapse" aria-labelledby="{{$index}}" data-parent="#polyX-list">
             <div class="card-body">
               <h3>Short Description</h3>
-              <p>{{entry['two']}}</p>
-              <div><strong>Type:</strong> {{entry['nine']}}<div>
+              <p>{{entry['q2']}}</p>
+              <div><strong>Type: </strong>{{entry['q9']}}</div>
+              <div><strong>Class Standing: </strong> {{entry['q12']}}</div>
+              <div><strong>College/Division:</strong> {{entry['q7']}}</div>
+              <div><strong>Email Person In-Charge:</strong> <a href="mailto:{{entry['q6']}}?subject=Polytechnic Experience: {{entry['q1']}}">{{entry['q6']}} {{entry['q5']}}</a></div>
+
+
             </div>
           </div>
         </div>
