@@ -1,6 +1,6 @@
 var app = angular.module('polyXApp', []);
 
-// college division
+// College division
 app.filter("college_division", function(){
   return function(input, option){
     var output = [];
@@ -30,7 +30,7 @@ app.filter("college_division", function(){
   }
 });
 
-// curricular vs. co-curricular
+// Curricular vs. Co-curricular
 app.filter("curr", function(){
   return function(input, option){
     var output = [];
@@ -89,7 +89,7 @@ app.filter("polyx_name", function(){
   }
 });
 
-// staff/faculty in-charge of the PolyX
+// Staff/Faculty in-charge of the PolyX
 app.filter("polyx_contact", function(){
   return function(input, option){
     var output = [];
@@ -99,12 +99,17 @@ app.filter("polyx_contact", function(){
     if(option != undefined) {
       opt = option.toLowerCase();
 
+      if (opt == 'all'){
+        angular.forEach(input, function(value, key){
+            output.push(value);
+        });
+      } else {
       angular.forEach(input, function(value, key){
         if(opt === value.q4.toLowerCase()){
           output.push(value);
         }
-
       });
+    }
     } else {
       output = input;
     }
@@ -112,7 +117,6 @@ app.filter("polyx_contact", function(){
     return output;
   }
 });
-
 
 // Class standing
 app.filter("class", function(){
@@ -139,6 +143,7 @@ app.filter("class", function(){
   }
 });
 
+// MAIN APP CONTROLLER
 app.controller('PolyXController', function PolyXController($scope, $http) {
 
   var jsonFeed = 'assets/docs/updated-qualtrics.json';
@@ -146,35 +151,63 @@ app.controller('PolyXController', function PolyXController($scope, $http) {
     $scope.polyXList = response.data;
     console.log(response.data);
 
-    $scope.names = getUniqueNames(response.data);
-    console.log($scope.names);
-  });
+    $scope.names = getUniqueContacts(response.data);
+    $scope.titles = getPolyXTitles(response.data);
+    $scope.divisions = getUniqueDivisions(response.data);
 
+  });
 });
 
+//  FORM INPUTS
 
-function getUniqueNames(arr){
-  var names = [];
-  var uniqueNames = []
+// get unique contacts list for dropdown menu
+function getUniqueContacts(arr){
+  var contact={};
+  var contacts = [];
+  var uniques = [];
 
-  for(i=0; i<arr.length; i++){
-    names.push(arr[i].q6);
+  for(i=0; i<arr.entries.length; i++){
+    var fullName=arr.entries[i].q5 +", " +arr.entries[i].q6;
+    var email=arr.entries[i].q4;
+
+    // check if email exists on the list
+    if(uniques.indexOf(email) == -1){
+      uniques.push(email);
+      contact = {fullName:fullName, email:email};
+      contacts.push(contact);
+    }
   }
-  return names;
+
+  contacts.sort((a, b) => (a.fullName > b.fullName) ? 1 : -1);
+  return contacts;
+
 }
 
-// function uniqueArray(arr){
-//   var a = [];
-//   for (var i=0, l=arr.length; i<1; i++)
-//     if (a.indexOf(arr[i] === -1))
-// }
-// Get unique College/Division values
-// app.filter("unique_division", function(){
-//   return(input){
-//     var output = [];
-//     angular.forEach(input, function(value, key){
-//       // CODE HOW TO GRAB UNIQUE VLAUES HERE!!
-//     });
-//     return output;
-//   }
-// });
+// get Polytechnic Experience Titles for dropdown menu
+function getPolyXTitles(arr){
+  var titles=[];
+
+  for(i=0; i<arr.entries.length; i++){
+    titles.push(arr.entries[i].q1);
+  }
+
+  titles.sort();
+  return titles;
+}
+
+// get Unique Division for the dropdown menu
+function getUniqueDivisions(arr){
+  var divisions=[];
+  var uniques=[];
+
+  for(i=0; i<arr.entries.length; i++){
+    var division=arr.entries[i].q7;
+
+    if(uniques.indexOf(division) == -1){
+      uniques.push(division);
+      divisions.push(division);
+    }
+  }
+  divisions.sort();
+  return divisions;
+}
