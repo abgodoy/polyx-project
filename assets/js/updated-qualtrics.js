@@ -45,7 +45,7 @@ app.filter("curr", function(){
           output.push(value);
         }
 
-        //string lenght of more than 15 will only collect 'curricular and co-curricular' values
+        //string length of more than 15 will only collect 'curricular and co-curricular' values
         if(opt.length > 13 && value.q9.toLowerCase().indexOf(opt) > 0){
           output.push(value);
         }
@@ -143,7 +143,7 @@ app.filter("class", function(){
   }
 });
 
-// MAIN APP CONTROLLER
+//**********MAIN APP CONTROLLER**********//
 app.controller('PolyXController', function PolyXController($scope, $http) {
 
   var jsonFeed = 'assets/docs/updated-qualtrics.json';
@@ -158,7 +158,7 @@ app.controller('PolyXController', function PolyXController($scope, $http) {
   });
 });
 
-//  FORM INPUTS
+//**********SUBROUTINES TO AUTOMATE FORM INPUTS**********//
 
 // get unique contacts list for dropdown menu
 function getUniqueContacts(arr){
