@@ -37,7 +37,7 @@ app.filter("curr", function(){
 
     var opt = "";
 
-    if(option != undefined) {
+    if(option !== undefined) {
       opt = option.toLowerCase();
 
       angular.forEach(input, function(value, key){
