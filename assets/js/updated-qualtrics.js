@@ -42,10 +42,6 @@ app.filter("curr", function() {
       console.log('option: ' + option);
       angular.forEach(input, function(value, key) {
         q9 = value.q9.toLowerCase();
-        console.log("q9:  " + q9);
-        console.log('title: ' + value.q1);
-        console.log('type: ' + value.q9);
-        console.log('indexOf q9:  ' + q9.indexOf('curricular'));
         switch (option) {
           case 'curricular':
             if (q9.indexOf('curricular') >= 0 && (q9.length <= 10 || q9.length > 13)) {
