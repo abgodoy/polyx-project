@@ -151,6 +151,14 @@ app.filter("class", function() {
   }
 });
 
+// app.filter("reset", function() {
+//   return function(input, option) {
+//
+//
+//     return input;
+//   }
+// });
+
 //**********MAIN APP CONTROLLER**********//
 app.controller('PolyXController', function PolyXController($scope, $http) {
 
@@ -162,6 +170,16 @@ app.controller('PolyXController', function PolyXController($scope, $http) {
     $scope.names = getUniqueContacts(response.data);
     $scope.titles = getPolyXTitles(response.data);
     $scope.divisions = getUniqueDivisions(response.data);
+
+    $scope.resetPolytechnicForm = function(){
+      console.log('reset has been clicked');
+      $scope.searchQuery = {};
+      $scope.division_option = null;
+      $scope.standing = null;
+      $scope.contact_option = null;
+      $scope.curricular_type = null;
+      $scope.polyx_name_option = null;
+    };
 
   });
 });
