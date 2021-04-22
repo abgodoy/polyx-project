@@ -173,12 +173,13 @@ app.controller('PolyXController', function PolyXController($scope, $http) {
 
     $scope.resetPolytechnicForm = function(){
       console.log('reset has been clicked');
-      $scope.searchQuery = {};
+      //$scope.searchQuery = {};
       $scope.division_option = null;
       $scope.standing = null;
       $scope.contact_option = null;
       $scope.curricular_type = null;
       $scope.polyx_name_option = null;
+
     };
 
   });

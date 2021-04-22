@@ -19,17 +19,53 @@
   .row {
     padding-bottom: 15px;
   }
+
+  #polyx-filters {
+    /* background: rgba(0,87,184,.2); */
+    margin-top: 20px;
+    padding: 20px;
+    border: solid 1px #c5c5c5;
+    border-radius: 25px
+  }
+
+  .card-header .fa {
+    transition: .3s transform ease-in-out;
+    margin-right: 25px;
+  }
+
+  .form-control {
+    font-size: 14px;
+  }
+
+  .card-header .collapsed .fa {
+    transform:  rotate(450deg);
+  }
+
+  @media only screen and (max-width: 767px) {
+    .clear-button {
+      margin-top: 25px;
+    }
+  }
+
 </style>
 
 <body>
   <div ng-app="polyXApp">
     <div ng-controller="PolyXController">
       <!-- ANGULAR -->
-      <form #polytechnicForm="ngForm">
-        <div class="container mt-sm-3" style="background: rgba(0,87,184,.2); padding: 20px">
+
+        <div class="container mt-sm-3">
+          <div class="form-row">
+            <!-- string search -->
+            <div class="col-md-12 col-lg-6">
+              <label class="col-form-label-lg">Search: </label>
+              <input type="text" class="form-control form-control-md" placeholder="Search for keywords..." ng-model="searchQuery" />
+            </div>
+          </div>
+            <form #polytechnicForm="ngForm" id="polyx-filters">
           <div class="form-row">
             <!-- college/division filter -->
-            <div class="col-md-4 col-sm-6">
+            <div class="col-lg-4 col-md-6 col-sm-12">
               <label class="col-form-label-lg">College/Division</label>
               <select class="form-control form-control-md" placeholder="choose filter" ng-model="division_option">
                 <option value="" selected disabled hidden>Choose college/division</option>
@@ -38,7 +74,7 @@
               </select>
             </div>
             <!-- class standing filter -->
-            <div class="col-md-2 col-lg-2">
+            <div class="col-lg-2 col-md-6 col-sm-12">
               <label class="col-form-label-lg">Class Standing</label>
               <select class="form-control form-control-md" placeholder="choose filter" ng-model="standing">
                 <option class="custom-select" selected="selected" disabled hidden value="">Choose standing</option>
@@ -51,7 +87,7 @@
             </div>
 
             <!-- Staff in-charge of the PolyX -->
-            <div class="col-md-3 col-sm-6">
+            <div class="col-lg-3 col-md-6 col-sm-12">
               <label class="col-form-label-lg">Faculty/Staff In-Charge</label>
               <select class="form-control form-control-md" placeholder="choose filter" ng-model="contact_option">
                 <option selected="selected" disabled hidden value="">Choose staff/faculty in charge</option>
@@ -61,7 +97,7 @@
             </div>
 
             <!-- curricular/co-curricular filter -->
-            <div class="col-md-3 col-sm-6" style="padding-top:15px">
+            <div class="col-lg-3 col-md-3 col-sm-6" style="padding-top:15px">
               <span class="form-check">
                 <input id="curricular" type="radio" name="curr" value="curricular" ng-model="curricular_type" />
                 <label class="col-form-label-md" for="curricular">Curricular</label>
@@ -76,9 +112,10 @@
               </div>
             </div>
           </div>
+
           <div class="form-row">
             <!-- PolyX Name -->
-            <div class="col-md-8 col-sm-12">
+            <div class="col-lg-8 col-md-6 col-sm-12">
               <label class="col-form-label-lg">Polytechnic Experience</label>
               <select class="form-control form-control-md" placeholder="choose filter" ng-model="polyx_name_option">
                 <option selected="selected" disabled hidden value="">Choose PolyX name...</option>
@@ -88,20 +125,14 @@
             </div>
           </div>
           <div class="form-row">
-            <!-- string search -->
-            <div class="col-md-12 col-lg-6">
-              <label class="col-form-label-lg">Search: </label>
-              <input type="text" class="form-control form-control-md" placeholder="type search query..." ng-model="searchQuery" />
+            <!-- PolyX Name -->
+            <div class="col-md-2 col-lg-2">
+              <button style="margin-top: 20px" type="reset" class="form-control form-control-md clear-button" ng-click="resetPolytechnicForm()" ng-model="reset">Clear Filters</button>
             </div>
           </div>
-          <div class="form-row" style="padding-top: 25px;">
-            <!-- reset button -->
-            <div class="offset-lg-5 col-md-2 col-lg-2">
-              <button type="reset" class="form-control form-control-md" ng-click="resetPolytechnicForm()" ng-model="reset">Clear Filters</button>
-            </div>
-          </div>
+          </form>
         </div><!-- col-container -->
-      </form>
+
       <!--------------------------------------------------------------------------------------------------------------------->
       <!-- display the accordion here -->
       <div class="container accordion" id="polyX-list" style="padding: 20px 0">
@@ -109,10 +140,14 @@
           Entries found: {{(polyXList.entries | class : standing | curr : curricular_type | filter:searchQuery | college_division:division_option | polyx_name:polyx_name_option | polyx_contact:contact_option).length}}</div>
         <div class="card" ng-repeat="entry in polyXList.entries | class : standing | curr : curricular_type | filter:searchQuery | college_division:division_option | polyx_name:polyx_name_option | polyx_contact:contact_option ">
           <div class="card-header" id="{{$index}}">
-            <h2 class="mb-0">
-              <button class="btn btn-link text-left" type="button" data-toggle="collapse" data-target="#collapse-{{$index}}" aria-expanded="false" aria-controls="collapse-{{$index}}">
+            <h2 class="mb-0" style="display: block">
+              <button class="btn btn-link text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse-{{$index}}" aria-expanded="false" aria-controls="collapse-{{$index}}">
+                <!-- <span style="padding-right: 15px"><i class="fa fa-chevron-up"></i></span> -->
+                <i class="fa fa-chevron-up"></i>
                 {{entry['q1']}}
+
               </button>
+
             </h2>
           </div>
 
@@ -141,7 +176,7 @@
               <h4>Contact Information</h4>
               <div class="row">
                 <div class="col-md-12">
-                  <strong>Faculty Instructor(s):</strong> <a href="mailto:{{entry['q4']}}?subject=Polytechnic Experience: {{entry['q1']}}">{{entry['q6']}} {{entry['q5']}}</a> <br />
+                  <strong>Faculty Instructor(s):</strong> {{entry['q6']}} {{entry['q5']}} (<a title="Send {{entry['q6']}} {{entry['q5']}} an email" href="mailto:{{entry['q4']}}?subject=Polytechnic Experience: {{entry['q1']}}">Email</a>) <br />
                   <strong>College/Division:</strong> {{entry['q7']}} <br />
                   <strong>Department:</strong> {{entry['q8']}}
                 </div>
